@@ -24,6 +24,24 @@ public class Node {
 		y=(new Random()).nextInt(maxY)+2*r;
 		n=N;
 	}
+	public void setX(int X){
+		x=X;
+	}
+	
+	public void setY(int Y){
+		y=Y;
+	}
+	
+	public Node() {
+		x=0;
+		y=0;
+		n=0;
+	}
+	public Node(int N) {
+		x=0;
+		y=0;
+		n=N;
+	}
 	
 	public double dist(Node sec){
 		return Math.sqrt((this.x-sec.x)*(this.x-sec.x)+(this.y-sec.y)*(this.y-sec.y));

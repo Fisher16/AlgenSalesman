@@ -39,8 +39,8 @@ public class AlgenSalesman extends JFrame {
 	public static void main(String[] args) {
 		AlgenSalesman window = new AlgenSalesman();
 		window.setVisible(true);
-		window.testXY();
-		window.testDist();
+//		window.testXY();
+//		window.testDist();
 		
 		
 	}
