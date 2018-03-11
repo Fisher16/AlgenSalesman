@@ -29,4 +29,7 @@ public class NodeList {
 
 		return s;
 	}
+	public void print(){
+		for(Node n: list)System.out.println(n.x+"   "+n.y);
+		}
 }

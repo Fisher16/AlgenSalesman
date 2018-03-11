@@ -12,19 +12,19 @@ import javax.swing.JPanel;
 public class SimulationPanel extends JPanel {
 
 	private static final long serialVersionUID = 626413797225770786L;
-	public int num=10;
+	public int num=30;
 	
 	public NodeList nList=new NodeList(500,400,num);
 	
-	Population pop=new Population(150, 10);
+	Population pop=new Population(150, num);
 	
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
-        for(int i=0;i<500;++i){
+        for(int i=0;i<7000;++i){
 	        pop.fillDNA(nList.list);
 	        pop.evaluate();
-	        pop.printBest();
+	       // pop.print();
 			pop.reproduction();
         }
 	}

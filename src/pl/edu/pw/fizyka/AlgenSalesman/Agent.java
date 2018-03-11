@@ -15,6 +15,7 @@ public class Agent {
 			int n=(new Random()).nextInt(num);
 			while(!(valid(n,dna)))n=(new Random()).nextInt(num);
 			dna.add(n);
+//			dnaNode.add(new Node(num));
 		}
 	}
 	public Agent(int num,int i){
@@ -38,6 +39,7 @@ public class Agent {
 	}
 	
 	public void fillDNA(ArrayList<Node> list){
+		dnaNode.clear();
 		for(int i: dna)dnaNode.add(list.get(i));
 	}
 	
@@ -68,7 +70,9 @@ public class Agent {
 		return child;
 	}
 	public void printDNA(){
-		System.out.println(dna);
+		System.out.println("dna" + dna);
+		for(Node n: dnaNode)System.out.println("NodeDNA " + n.x+"  "+n.y);
+		
 	}
 	
 	public void newDNA(){
