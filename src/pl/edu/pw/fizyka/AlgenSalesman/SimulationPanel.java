@@ -12,13 +12,21 @@ import javax.swing.JPanel;
 public class SimulationPanel extends JPanel {
 
 	private static final long serialVersionUID = 626413797225770786L;
-	public int num=50;
+	public int num=10;
 	
 	public NodeList nList=new NodeList(500,400,num);
+	
+	Population pop=new Population(150, 10);
 	
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
+        for(int i=0;i<500;++i){
+	        pop.fillDNA(nList.list);
+	        pop.evaluate();
+	        pop.printBest();
+			pop.reproduction();
+        }
 	}
 	
 	
@@ -33,9 +41,14 @@ public class SimulationPanel extends JPanel {
         for(Node n: nList.list)
         	graph.fillOval(n.x-n.r, n.y-n.r, 2*n.r,2*n.r);   
         //draw lines
-        g.setColor(Color.RED);
+        g.setColor(Color.LIGHT_GRAY);
 		this.drawPath(g, nList.list);
-		
+		g.setColor(Color.RED);
+		this.drawPath(g, pop.population.get(0).dnaNode);
+	}
+	
+	public void testDrawingTwo(Graphics g){
+
 		g.setColor(Color.BLUE);
 		Agent agent1=new Agent(num);
 		agent1.fillDNA(nList.list);
@@ -47,7 +60,12 @@ public class SimulationPanel extends JPanel {
 		agent2.fillDNA(nList.list);
 		this.drawPath(g, agent2.dnaNode);
 		System.out.println(agent2.evaluate());
+		agent1.printDNA();
+		agent2.printDNA();
+		Agent agent3=agent1.crossover(agent2);
+		agent3.printDNA();
 	}
+	
 	
 	protected void drawPath(Graphics g,ArrayList<Node> list){
 		for(int i=1;i<list.size();++i)

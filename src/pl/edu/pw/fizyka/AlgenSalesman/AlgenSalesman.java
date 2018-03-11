@@ -16,6 +16,7 @@ public class AlgenSalesman extends JFrame {
 	private static final long serialVersionUID = 8438792764310234144L;
 	SimulationPanel sPanel=new SimulationPanel();
 	
+	
 	public AlgenSalesman(){
 		setTitle("Salesman problem - genetic algorithms");
 		setSize(700, 500);
@@ -25,8 +26,7 @@ public class AlgenSalesman extends JFrame {
 		sPanel.repaint();
 		tPane.addTab("Sim",sPanel);
         this.add(tPane);
-        
-		
+
 	}
 	public void testXY(){
 		for(Node n: sPanel.nList.list)System.out.println(n.n+"  "+n.x+"  "+n.y);
