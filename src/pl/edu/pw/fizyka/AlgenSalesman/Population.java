@@ -43,7 +43,7 @@ public class Population {
 			int j=0,k=0;
 			while(population.get(j).matingProb>rand1)j++;
 			while(population.get(k).matingProb>rand2)k++;
-			population.set(i, population.get(j).crossover(population.get(k)));
+			population.set(i, population.get(j).crossover2(population.get(k)));
 		}
 		
 		//fresh blood

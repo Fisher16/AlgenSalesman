@@ -21,7 +21,7 @@ public class SimulationPanel extends JPanel {
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
-        for(int i=0;i<7000;++i){
+        for(int i=0;i<1000;++i){
 	        pop.fillDNA(nList.list);
 	        pop.evaluate();
 	       // pop.print();
