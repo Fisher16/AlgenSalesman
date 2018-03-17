@@ -17,7 +17,7 @@ public class AlgenSalesman extends JFrame {
 	private static final long serialVersionUID = 8438792764310234144L;
 	public int num = 30;
 	public int popSize = 100;
-	public int numOfGenerations = 100;
+	public int numOfGenerations = 150;
 	public NodeList nList=new NodeList(500,400,num);
 	SimulationPanel sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize); // 1 i 2 to odpowiednio tryb Koszi i Szlupi
 	SimulationPanel sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
