@@ -12,21 +12,63 @@ import javax.swing.JPanel;
 public class SimulationPanel extends JPanel {
 
 	private static final long serialVersionUID = 626413797225770786L;
-	public int num=30;
+	public int num;
+	public int crossMode;
+	public int repMode;
 	
-	public NodeList nList=new NodeList(500,400,num);
+	public NodeList nList;
+	public int numOfPop;
+	public int popSize;
 	
-	Population pop=new Population(150, num);
+	Population pop;
 	
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
-        for(int i=0;i<1000;++i){
-	        pop.fillDNA(nList.list);
-	        pop.evaluate();
+		nList=new NodeList(500,400,num);
+		numOfPop = 1000;
+		crossMode=2;
+		repMode=2;
+		num=30;
+		popSize=150;
+		pop=new Population(popSize, num,crossMode);
+		
+        pop.fillDNA(nList.list);
+        pop.evaluate2();
+        for(int i=0;i<numOfPop;++i){
+
 	       // pop.print();
-			pop.reproduction();
+			pop.reproduction2();
+	        pop.fillDNA(nList.list);
+	        pop.evaluate2();
         }
+	}
+	
+	public SimulationPanel(NodeList grandList, int grandNum, int grandCrossMode,int grandRepMode, int grandNumOfPop, int grandPopSize){
+		this.setBackground(Color.darkGray);
+		this.setMinimumSize(new Dimension(200,200));
+		crossMode=grandCrossMode;
+		repMode = grandRepMode;
+		num=grandNum;
+		nList=grandList;
+		popSize=grandPopSize;
+		numOfPop = grandNumOfPop;
+		pop=new Population(popSize, num,crossMode);
+		
+        pop.fillDNA(nList.list);
+        if(repMode==1) {pop.evaluate();}
+	    else if(repMode==2) {pop.evaluate2();}
+        
+        for(int i=0;i<numOfPop;++i){
+
+	       if(repMode==1) {pop.reproduction();}
+	       else if(repMode==2) {pop.reproduction2();}
+	       
+	        pop.fillDNA(nList.list);
+	        if(repMode==1) {pop.evaluate();}
+		    else if(repMode==2) {pop.evaluate2();}
+        }
+        
 	}
 	
 	
@@ -41,8 +83,8 @@ public class SimulationPanel extends JPanel {
         for(Node n: nList.list)
         	graph.fillOval(n.x-n.r, n.y-n.r, 2*n.r,2*n.r);   
         //draw lines
-        g.setColor(Color.LIGHT_GRAY);
-		this.drawPath(g, nList.list);
+      /*  g.setColor(Color.LIGHT_GRAY);
+		this.drawPath(g, nList.list);*/
 		g.setColor(Color.RED);
 		this.drawPath(g, pop.population.get(0).dnaNode);
 	}

@@ -13,8 +13,14 @@ import javax.swing.*;
  */
 public class AlgenSalesman extends JFrame {
 
+	
 	private static final long serialVersionUID = 8438792764310234144L;
-	SimulationPanel sPanel=new SimulationPanel();
+	public int num = 30;
+	public int popSize = 100;
+	public int numOfGenerations = 100;
+	public NodeList nList=new NodeList(500,400,num);
+	SimulationPanel sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize); // 1 i 2 to odpowiednio tryb Koszi i Szlupi
+	SimulationPanel sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
 	
 	
 	public AlgenSalesman(){
@@ -24,7 +30,20 @@ public class AlgenSalesman extends JFrame {
 		setMinimumSize(new Dimension(700,500));
 		JTabbedPane tPane = new JTabbedPane();
 		sPanel.repaint();
-		tPane.addTab("Sim",sPanel);
+		tPane.addTab("Koszi",sPanel);
+		tPane.addTab("Szlupi",sPanel2);
+		
+		/*
+		double suma = 0;
+		for(int ii=0;ii<sPanel2.pop.population.size();ii++)
+		{
+			System.out.println(ii + " wsp-  " + sPanel.pop.population.get(ii).matingProb );
+			suma+=sPanel.pop.population.get(ii).matingProb;
+		}
+		System.out.println(" suma-  " + suma);
+		*/
+		System.out.println("best koszi - " ); sPanel.pop.printBest();
+		System.out.println("best szlupi - " ); sPanel2.pop.printBest();
         this.add(tPane);
 
 	}
