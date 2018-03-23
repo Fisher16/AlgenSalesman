@@ -9,6 +9,7 @@ public class Agent {
 	public ArrayList<Node> dnaNode=new ArrayList<Node>();
 	public double score;
 	public double matingProb;
+	public double probFloor;
 	Random random = new Random();
 	
 	public Agent(int num){

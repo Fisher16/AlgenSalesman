@@ -6,9 +6,11 @@ public class Population {
 	private Random generator;
 	public ArrayList<Agent> population = new ArrayList<Agent>();
 	double totalSum;
+	double totalSumOfProb;
 	double longest;
 	private double totalMutation = 0.98;
 	private double swapMutation = 0.92;
+	private double twixMutation = 0.90;
 	private int mode;
 	int quantity;
 	int num;
@@ -29,9 +31,14 @@ public class Population {
 		population.sort(new CustomComparator());
 		longest=population.get(population.size()-1).score;
 		totalSum= population.size()*longest - totalSum;
-
-		for (Agent a : population)
-			a.matingProb = (longest -a.score )/ totalSum ;
+		
+		totalSumOfProb = 0;		
+		for ( int ii = population.size()-1; ii >= 0; ii--)
+		{
+			population.get(ii).matingProb = (longest -population.get(ii).score )/ totalSum ;
+			population.get(ii).probFloor = totalSumOfProb;
+			totalSumOfProb+=population.get(ii).matingProb;
+		}
 	}
 	
 	public void evaluate() {
@@ -79,18 +86,7 @@ public class Population {
 				a.dna.set(r1, a.dna.get(r2));
 				a.dna.set(r2,n);
 			}
-			//twix
-	/*	for(Agent a: population)
-			if(generator.nextDouble()>swapMutation){
-				int r1=generator.nextInt(a.dna.size()-1);
-				int r2=generator.nextInt(a.dna.size()-1);
-				while(r1==r2)r2=generator.nextInt(a.dna.size()-1);
-				Agent tmp =a;
-				for(int ii = r1; ii <=r2;ii++) {
-					a.dna.set(r1, a.dna.get(r2));
-					}
-				}
-		*/
+
 		
 	}
 	
@@ -103,21 +99,20 @@ public class Population {
 		ArrayList<Agent> tmp = new ArrayList<>();
 		for (int ii = 0; ii < quantity; ++ii)
 			tmp.add(population.get(ii));
-		double rand;
+		double rand,rand2;
 		for(int i=0;i<population.size();i++){
 			rand=generator.nextDouble();
-			int j=generator.nextInt(population.size()-1);
-			int k=generator.nextInt(population.size()-1);
-			while(tmp.get(j).matingProb<rand) {j=generator.nextInt(population.size()-1);rand=generator.nextDouble();	System.out.println("a "+i);
-}
-			while(tmp.get(k).matingProb<rand) {k=generator.nextInt(population.size()-1);rand=generator.nextDouble();	System.out.println("b "+i);
-}
+			rand2=generator.nextDouble();
+			int j=0;
+			int k=0;
+			while(tmp.get(j).probFloor>=rand  && !(j == quantity-1)) {j++;}
+			while(tmp.get(k).probFloor>=rand2 && !(k == quantity-1)) {k++;}
 			if(mode==1)population.set(i, tmp.get(j).crossover(tmp.get(k)));
 			if(mode==2)population.set(i, tmp.get(j).crossover2(tmp.get(k)));
 		}
 		
 
-		 /*
+		
 		for(Agent a: population)
 			if(generator.nextDouble()>swapMutation){
 				int r1=generator.nextInt(a.dna.size()-1);
@@ -127,19 +122,24 @@ public class Population {
 				a.dna.set(r1, a.dna.get(r2));
 				a.dna.set(r2,n);
 			}
-			*/
+	/*		
 			//twix
-	/*	for(Agent a: population)
-			if(generator.nextDouble()>swapMutation){
+		for(Agent a: population)
+			if(generator.nextDouble()>twixMutation){
+				ArrayList<Integer> tmp2 = new ArrayList<>();
+				for (int ii = 0; ii < a.dna.size(); ++ii)
+					tmp2.add(a.dna.get(ii));
 				int r1=generator.nextInt(a.dna.size()-1);
 				int r2=generator.nextInt(a.dna.size()-1);
 				while(r1==r2)r2=generator.nextInt(a.dna.size()-1);
-				Agent tmp =a;
-				for(int ii = r1; ii <=r2;ii++) {
-					a.dna.set(r1, a.dna.get(r2));
-					}
+				if(r1>r2) {int t= r1; r1 = r2; r2=t;}
+				for(int ii = 0; ii<r2-r1;ii++)
+				{
+					a.dna.set(r1+ii,tmp2.get(r2-ii));	
 				}
-		*/
+			}
+		
+		
 	/*	population.sort(new CustomComparator());
 		ArrayList<Integer> bestDna=new ArrayList<Integer>();
 		for(int i=0;i<population.get(0).dna.size();++i)bestDna.add(population.get(0).dna.get(i));
@@ -169,6 +169,10 @@ public class Population {
 			System.out.println(a.dna + "  " + a.score + "   " + a.matingProb);
 		// for(Agent a:population)a.printDNA();
 		System.out.println("");
+	}
+	public void print(int nr) {
+		Agent a = population.get(nr);
+		System.out.println(a.dna + "   " + a.score + "   " + a.matingProb);
 	}
 
 	public void printBest() {

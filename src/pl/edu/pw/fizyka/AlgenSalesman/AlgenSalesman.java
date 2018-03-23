@@ -16,8 +16,8 @@ public class AlgenSalesman extends JFrame {
 	
 	private static final long serialVersionUID = 8438792764310234144L;
 	public int num = 30;
-	public int popSize = 100;
-	public int numOfGenerations = 150;
+	public int popSize = 1000;
+	public int numOfGenerations = 1000;
 	public NodeList nList=new NodeList(500,400,num);
 	SimulationPanel sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize); // 1 i 2 to odpowiednio tryb Koszi i Szlupi
 	SimulationPanel sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
@@ -42,6 +42,7 @@ public class AlgenSalesman extends JFrame {
 		}
 		System.out.println(" suma-  " + suma);
 		*/
+
 		System.out.println("best koszi - " ); sPanel.pop.printBest();
 		System.out.println("best szlupi - " ); sPanel2.pop.printBest();
         this.add(tPane);
