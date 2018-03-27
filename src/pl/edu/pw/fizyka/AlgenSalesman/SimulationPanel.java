@@ -9,18 +9,23 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 
+
 public class SimulationPanel extends JPanel {
 
 	private static final long serialVersionUID = 626413797225770786L;
 	public int num;
 	public int crossMode;
 	public int repMode;
+	public int indexDrawn=0;
 	
 	public NodeList nList;
 	public int numOfPop;
 	public int popSize;
 	
+	
 	Population pop;
+	ArrayList<Agent> timeline=new ArrayList<Agent>();;
+	int div=100;
 	
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
@@ -32,9 +37,9 @@ public class SimulationPanel extends JPanel {
 		num=30;
 		popSize=150;
 		pop=new Population(popSize, num,crossMode);
-		
         pop.fillDNA(nList.list);
         pop.evaluate2();
+        //do wrzucenia w timer
         for(int i=0;i<numOfPop;++i){
 
 	       // pop.print();
@@ -42,6 +47,8 @@ public class SimulationPanel extends JPanel {
 	        pop.fillDNA(nList.list);
 	        pop.evaluate2();
         }
+        
+       
 	}
 	
 	public SimulationPanel(NodeList grandList, int grandNum, int grandCrossMode,int grandRepMode, int grandNumOfPop, int grandPopSize){
@@ -55,20 +62,30 @@ public class SimulationPanel extends JPanel {
 		numOfPop = grandNumOfPop;
 		pop=new Population(popSize, num,crossMode);
 		
+		
         pop.fillDNA(nList.list);
         if(repMode==1) {pop.evaluate();}
 	    else if(repMode==2) {pop.evaluate2();}
         
+        int j=0;
         for(int i=0;i<numOfPop;++i){
-
+        	
+        	
 	       if(repMode==1) {pop.reproduction();}
 	       else if(repMode==2) {pop.reproduction2();}
 	       
 	        pop.fillDNA(nList.list);
 	        if(repMode==1) {pop.evaluate();}
 		    else if(repMode==2) {pop.evaluate2();}
+	        
+	        if(i%div==0){
+        		timeline.add(j, pop.population.get(0));
+        		j++;
+        	}
         }
-        
+        timeline.add(j,pop.population.get(0));
+//        for(Agent a: timeline)a.printScore();
+
 	}
 	
 	
@@ -86,7 +103,8 @@ public class SimulationPanel extends JPanel {
       /*  g.setColor(Color.LIGHT_GRAY);
 		this.drawPath(g, nList.list);*/
 		g.setColor(Color.RED);
-		this.drawPath(g, pop.population.get(0).dnaNode);
+		this.drawPath(g, timeline.get(indexDrawn).dnaNode);
+		 
 	}
 	
 	public void testDrawingTwo(Graphics g){
@@ -113,5 +131,7 @@ public class SimulationPanel extends JPanel {
 		for(int i=1;i<list.size();++i)
 			g.drawLine(list.get(i-1).x,list.get(i-1).y,list.get(i).x,list.get(i).y);
 	}
+	
+
 
 }

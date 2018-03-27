@@ -151,6 +151,11 @@ public class Agent {
 		for(Node n: dnaNode)System.out.println("NodeDNA " + n.x+"  "+n.y);
 		
 	}
+	public void printScore(){
+		System.out.print("dna" + dna);
+		System.out.println(" score: " + score);
+		
+	}
 	
 	public void newDNA(){
 		for(int i=0;i<dna.size();++i)dna.set(i,-1);

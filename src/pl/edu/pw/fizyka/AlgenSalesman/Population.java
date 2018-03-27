@@ -8,9 +8,9 @@ public class Population {
 	double totalSum;
 	double totalSumOfProb;
 	double longest;
-	private double totalMutation = 0.98;
-	private double swapMutation = 0.92;
-	private double twixMutation = 0.90;
+	private double totalMutation = 0.95;
+	private double swapMutation = 0.90;
+//	private double twixMutation = 0.90;
 	private int mode;
 	int quantity;
 	int num;
@@ -178,5 +178,8 @@ public class Population {
 	public void printBest() {
 		Agent a = population.get(0);
 		System.out.println(a.dna + "   " + a.score + "   " + a.matingProb);
+	}
+	public Agent returnBest(){
+		return population.get(0);
 	}
 }
