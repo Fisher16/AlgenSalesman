@@ -5,13 +5,15 @@ import java.util.*;
 public class Population {
 	private Random generator;
 	public ArrayList<Agent> population = new ArrayList<Agent>();
+	ArrayList<Integer> tmp2 = new ArrayList<>();
 	double totalSum;
 	double totalSumOfProb;
 	double longest;
 	private double totalMutation = 0.98;
 	private double swapMutation = 0.92;
-	private double twixMutation = 0.90;
+	private double twixMutation = 1;
 	private int mode;
+	private int t; //taki tam temp
 	int quantity;
 	int num;
 	
@@ -21,6 +23,7 @@ public class Population {
 		num=gNum;
 		for (int i = 0; i < quantity; ++i)
 			population.add(new Agent(num));
+		for(int ii=0;ii<num;ii++) {tmp2.add(1);}
 		generator = new Random();
 	}
 
@@ -113,7 +116,8 @@ public class Population {
 		
 
 		
-		for(Agent a: population)
+		
+		/*for(Agent a: population)
 			if(generator.nextDouble()>swapMutation){
 				int r1=generator.nextInt(a.dna.size()-1);
 				int r2=generator.nextInt(a.dna.size()-1);
@@ -121,25 +125,24 @@ public class Population {
 				int n=a.dna.get(r1);
 				a.dna.set(r1, a.dna.get(r2));
 				a.dna.set(r2,n);
-			}
-	/*		
+			}*/
+	
 			//twix
 		for(Agent a: population)
 			if(generator.nextDouble()>twixMutation){
-				ArrayList<Integer> tmp2 = new ArrayList<>();
-				for (int ii = 0; ii < a.dna.size(); ++ii)
-					tmp2.add(a.dna.get(ii));
+				for (int ii: a.dna)
+				{
+					tmp2.set(ii,a.dna.get(ii));
+				}
 				int r1=generator.nextInt(a.dna.size()-1);
 				int r2=generator.nextInt(a.dna.size()-1);
-				while(r1==r2)r2=generator.nextInt(a.dna.size()-1);
-				if(r1>r2) {int t= r1; r1 = r2; r2=t;}
-				for(int ii = 0; ii<r2-r1;ii++)
+				if(r1>r2) {t= r1; r1 = r2; r2=t;}				
+				for(int ii = 0; ii<=(r2-r1);ii++)
 				{
 					a.dna.set(r1+ii,tmp2.get(r2-ii));	
 				}
+
 			}
-		
-		
 	/*	population.sort(new CustomComparator());
 		ArrayList<Integer> bestDna=new ArrayList<Integer>();
 		for(int i=0;i<population.get(0).dna.size();++i)bestDna.add(population.get(0).dna.get(i));
@@ -167,7 +170,6 @@ public class Population {
 	public void print() {
 		for (Agent a : population)
 			System.out.println(a.dna + "  " + a.score + "   " + a.matingProb);
-		// for(Agent a:population)a.printDNA();
 		System.out.println("");
 	}
 	public void print(int nr) {
