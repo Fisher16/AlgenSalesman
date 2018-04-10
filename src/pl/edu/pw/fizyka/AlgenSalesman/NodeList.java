@@ -12,7 +12,7 @@ public class NodeList {
 		list.add(nn);
 		for(int i=1;i<number;++i){
 			Node n=new Node(maxX,maxY,i);
-			while(this.tooClose(n))n=new Node(maxX,maxY,i);  //po co to??
+			while(this.tooClose(n))n=new Node(maxX,maxY,i);  //po co to?? //Nie bêd¹ za blisko kropki
 			list.add(n);
 		}
 		
@@ -27,7 +27,7 @@ public class NodeList {
 	public double listDist(){
 		double s=0;
 		for(int i=1;i<list.size();++i)
-			s+=list.get(i).dist(list.get(i-1));  //powinien wraca na poczatek (chyba)
+			s+=list.get(i).dist(list.get(i-1));  //powinien wraca na poczatek (chyba) //jest git na palcach policzy³em odleg³oœci 
 		return s;
 	}
 	

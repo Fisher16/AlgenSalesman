@@ -7,7 +7,7 @@ public class Agent {
 	
 	public ArrayList<Integer> dna= new ArrayList<Integer>();
 	public ArrayList<Node> dnaNode=new ArrayList<Node>();
-	public double score;
+	public double score = 100000;
 	public double matingProb;
 	public double probFloor;
 	Random random = new Random();
@@ -26,6 +26,10 @@ public class Agent {
 			dna.add(n);
 		}
 	}
+	public Agent(int num, String botak){			//ten gdy greedy
+		for(int i = 0; i<num;i++)dna.add(i);
+
+	}
 	public Agent(){
 		int num=5;
 		while(dna.size()<num){
@@ -39,6 +43,7 @@ public class Agent {
 		for(int j=1;j<list.size()+1;++j)if(n==list.get(j-1))test=false;
 		return test;
 	}
+	
 	public Boolean valid(int n,ArrayList<Integer> list,int a, int b){
 		Boolean test=true;
 		for(int j=a;j<=b;++j)if(n==list.get(j))test=false;
@@ -59,8 +64,54 @@ public class Agent {
 		double s=0;
 		for(int i=1;i<dnaNode.size();++i)
 			s+=dnaNode.get(i).dist(dnaNode.get(i-1)); //powinien wracać 
+		s+=dnaNode.get(0).dist(dnaNode.get(dnaNode.size()-1));
 		score=s;
 		return s;
+	}
+	
+	public void greedySet(int start){
+		double dist;
+		double shortest = 10000;
+		int first;
+		int numberOfShortestNode = -1; 
+		ArrayList<Integer> usedDna= new ArrayList<Integer>();
+		score = 0;
+		usedDna.add(start);
+		for(int i=0;i<dnaNode.size()-1;++i)
+		{
+			first = 1;
+			for(int a = 0; a<usedDna.size();a++)System.out.print(usedDna.get(a)+" ");
+			for(int ii=0;ii<dnaNode.size();ii++)
+			{
+				
+				//System.out.println("num2 "+ ii);
+				
+				if(valid(ii,usedDna)) 
+				{
+					//System.out.println("w if");
+					dist=dnaNode.get(usedDna.get(i)).dist(dnaNode.get(ii));
+					
+					if(first==1) {
+						first = 0;
+						shortest=dist;
+						numberOfShortestNode=ii;
+					}
+					else if(dist<shortest) {
+						first = 0;
+						shortest=dist;
+						numberOfShortestNode=ii;
+						//System.out.println("w 2if");
+						}
+					}
+				
+			}			
+			usedDna.add(numberOfShortestNode);
+			score += shortest;
+		}
+		score += dnaNode.get(usedDna.get(usedDna.size()-1)).dist(dnaNode.get(usedDna.get(0)));
+		for(int iii=0;iii <dna.size();iii++) {dna.set(iii,usedDna.get(iii));}
+		
+
 	}
 	
 	public Agent crossover(Agent sec){
@@ -149,6 +200,11 @@ public class Agent {
 	public void printDNA(){
 		System.out.println("dna" + dna);
 		for(Node n: dnaNode)System.out.println("NodeDNA " + n.x+"  "+n.y);
+		
+	}
+	public void printScore(){
+		System.out.print("dna" + dna);
+		System.out.println(" score: " + score);
 		
 	}
 	

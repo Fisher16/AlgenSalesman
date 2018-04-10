@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 
 
-public class SimulationPanel extends JPanel {
+public class greedySimulationPanel extends JPanel {
 
 	private static final long serialVersionUID = 626413797225770786L;
 	public int num;
@@ -23,70 +23,41 @@ public class SimulationPanel extends JPanel {
 	public int popSize;
 	
 	
-	Population pop;
-	ArrayList<Agent> timeline=new ArrayList<Agent>();;
+	greedyPopulation pop;
+	ArrayList<Agent> timeline=new ArrayList<Agent>();
 	int div=100;
 	
-	public SimulationPanel(){
+	public greedySimulationPanel(){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
 		nList=new NodeList(500,400,num);
-		numOfPop = 1;
-		crossMode=2;
-		repMode=2;
-		num=10;
-		popSize=1;
-		pop=new Population(popSize, num,crossMode);
-        pop.fillDNA(nList.list);
-        pop.evaluate2();
-        //do wrzucenia w timer
-        for(int i=0;i<numOfPop;++i){
+		num=30;
+		pop=new greedyPopulation( num);
 
-	       // pop.print();
-			pop.reproduction2();
-	        pop.fillDNA(nList.list);
-	        pop.evaluate2();
-        }
+        pop.fillDNA(nList.list);
+        pop.evaluate();
         
        
 	}
 	
-	public SimulationPanel(NodeList grandList, int grandNum, int grandCrossMode,int grandRepMode, int grandNumOfPop, int grandPopSize){
+	public greedySimulationPanel(NodeList grandList, int grandNum){
 		this.setBackground(Color.darkGray);
 		this.setMinimumSize(new Dimension(200,200));
-		crossMode=grandCrossMode;
-		repMode = grandRepMode;
 		num=grandNum;
 		nList=grandList;
-		popSize=grandPopSize;
-		numOfPop = grandNumOfPop;
-		pop=new Population(popSize, num,crossMode);
-		
-		
+		pop=new greedyPopulation(num);
         pop.fillDNA(nList.list);
-        if(repMode==1) {pop.evaluate();}
-	    else if(repMode==2) {pop.evaluate2();}
+        pop.evaluate();
+        pop.fillDNA(nList.list);        
         
-        int j=0;
-        for(int i=0;i<numOfPop;++i){
-        	
-        	
-	       if(repMode==1) {pop.reproduction();}
-	       else if(repMode==2) {pop.reproduction2();}
-	       
-	        pop.fillDNA(nList.list);
-	        if(repMode==1) {pop.evaluate();}
-		    else if(repMode==2) {pop.evaluate2();}
-	        
-	        if(i%div==0){
-        		timeline.add(j, pop.population.get(0));
-        		j++;
-        	}
-        }
-        timeline.add(j,pop.population.get(0));
-//        for(Agent a: timeline)a.printScore();
 
-	}
+        
+  
+        	
+        }
+    
+
+	
 	
 	
 	
@@ -103,7 +74,7 @@ public class SimulationPanel extends JPanel {
       /*  g.setColor(Color.LIGHT_GRAY);
 		this.drawPath(g, nList.list);*/
 		g.setColor(Color.RED);
-		this.drawPath(g, timeline.get(indexDrawn).dnaNode);
+		this.drawPath(g, pop.returnBest().dnaNode);
 		 
 	}
 	
@@ -128,6 +99,7 @@ public class SimulationPanel extends JPanel {
 	
 	
 	protected void drawPath(Graphics g,ArrayList<Node> list){
+		g.fillOval(list.get(0).x-2*list.get(0).r, list.get(0).y-2*list.get(0).r, 4*list.get(0).r,4*list.get(0).r);  
 		for(int i=1;i<list.size();++i)
 			g.drawLine(list.get(i-1).x,list.get(i-1).y,list.get(i).x,list.get(i).y);
 		g.drawLine(list.get(0).x,list.get(0).y,list.get(list.size()-1).x,list.get(list.size()-1).y);

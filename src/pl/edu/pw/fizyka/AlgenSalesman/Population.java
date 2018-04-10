@@ -9,8 +9,8 @@ public class Population {
 	double totalSum;
 	double totalSumOfProb;
 	double longest;
-	private double totalMutation = 0.98;
-	private double swapMutation = 0.92;
+	private double totalMutation = 0.90;
+	private double swapMutation = 0.90;
 	private double twixMutation = 1;
 	private int mode;
 	private int t; //taki tam temp
@@ -38,19 +38,20 @@ public class Population {
 		totalSumOfProb = 0;		
 		for ( int ii = population.size()-1; ii >= 0; ii--)
 		{
-			population.get(ii).matingProb = (longest -population.get(ii).score )/ totalSum ;
-			population.get(ii).probFloor = totalSumOfProb;
+			population.get(ii).matingProb=(longest -population.get(ii).score )/totalSum;
+			population.get(ii).probFloor=totalSumOfProb;
 			totalSumOfProb+=population.get(ii).matingProb;
 		}
+		population.sort(new CustomComparator());
 	}
 	
 	public void evaluate() {
 		totalSum = 0;
 		for (Agent a : population)
 			totalSum += a.evaluate();
-		population.sort(new CustomComparator());
 		for (Agent a : population)
 			a.matingProb = 1 - a.score / totalSum * population.size();
+		population.sort(new CustomComparator());
 	}
 
 	// proliferation
@@ -115,9 +116,9 @@ public class Population {
 		}
 		
 
+		/*
 		
-		
-		/*for(Agent a: population)
+		for(Agent a: population)
 			if(generator.nextDouble()>swapMutation){
 				int r1=generator.nextInt(a.dna.size()-1);
 				int r2=generator.nextInt(a.dna.size()-1);
@@ -125,8 +126,8 @@ public class Population {
 				int n=a.dna.get(r1);
 				a.dna.set(r1, a.dna.get(r2));
 				a.dna.set(r2,n);
-			}*/
-	
+			}
+	*/
 			//twix
 		for(Agent a: population)
 			if(generator.nextDouble()>twixMutation){
@@ -180,5 +181,8 @@ public class Population {
 	public void printBest() {
 		Agent a = population.get(0);
 		System.out.println(a.dna + "   " + a.score + "   " + a.matingProb);
+	}
+	public Agent returnBest(){
+		return population.get(0);
 	}
 }
