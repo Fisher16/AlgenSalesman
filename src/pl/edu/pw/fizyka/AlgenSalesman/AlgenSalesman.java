@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,13 +22,13 @@ public class AlgenSalesman extends JFrame {
 
 	
 	private static final long serialVersionUID = 8438792764310234144L;
-	public int num = 30; // cities
-	public int popSize = 1000;
-	public int numOfGenerations = 1000;
-	public NodeList nList=new NodeList(500,400,num);
-	SimulationPanel sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize); // 1 i 2 to odpowiednio tryb Koszi i Szlupi
-	SimulationPanel sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
-	greedySimulationPanel greedyPanel=new greedySimulationPanel(nList,num);
+	public static int num = 5; // cities
+	public static int popSize = 1000;
+	public static int numOfGenerations = 1000;
+	public static NodeList nList=new NodeList(700,500,num);
+		static SimulationPanel sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize); // 1 i 2 to odpowiednio tryb Koszi i Szlupi
+		static SimulationPanel sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
+		static greedySimulationPanel greedyPanel=new greedySimulationPanel(nList,num);
 	public SliderTexted sTime;
 	
 	public AlgenSalesman(){
@@ -39,7 +40,7 @@ public class AlgenSalesman extends JFrame {
 		tPane.addTab("Koszi",sPanel);
 		tPane.addTab("Szlupi",sPanel2);
 		tPane.addTab("Greedy",greedyPanel);
-        sTime=new SliderTexted(0,numOfGenerations/100,"Time");
+        sTime=new SliderTexted(0,numOfGenerations/10,"Time");
         this.setLayout(new BorderLayout());
         this.add(sTime,BorderLayout.SOUTH);
         sTime.slider.addChangeListener(new ChangeListener(){
@@ -65,7 +66,6 @@ public class AlgenSalesman extends JFrame {
 		System.out.println("best szlupi - " ); sPanel2.pop.printBest();
 		System.out.println("best greed - " ); greedyPanel.pop.printBest();
 
-
         this.add(tPane,BorderLayout.CENTER);
 
 	}
@@ -78,8 +78,18 @@ public class AlgenSalesman extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		AlgenSalesman window = new AlgenSalesman();
-		window.setVisible(true);
+		
+		for(int i=10;i<=100;i+=10){
+			num=i;
+			nList=new NodeList(700,500,num);
+			sPanel=new SimulationPanel(nList,num,1,1,numOfGenerations, popSize);
+			sPanel2=new SimulationPanel(nList,num,2,2,numOfGenerations, popSize);
+			greedyPanel=new greedySimulationPanel(nList,num);
+			//AlgenSalesman window = new AlgenSalesman();
+			//window.setVisible(true);
+
+		}
+		
 //		window.testXY();
 //		window.testDist();
 		

@@ -10,7 +10,7 @@ public class Population {
 	double totalSumOfProb;
 	double longest;
 	private double totalMutation = 0.90;
-	private double swapMutation = 0.90;
+	private double swapMutation = 0.75;
 	private double twixMutation = 1;
 	private int mode;
 	private int t; //taki tam temp

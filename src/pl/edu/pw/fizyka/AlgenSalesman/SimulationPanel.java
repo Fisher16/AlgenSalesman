@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -25,7 +28,7 @@ public class SimulationPanel extends JPanel {
 	
 	Population pop;
 	ArrayList<Agent> timeline=new ArrayList<Agent>();;
-	int div=100;
+	int div=10;
 	
 	public SimulationPanel(){
 		this.setBackground(Color.darkGray);
@@ -60,9 +63,13 @@ public class SimulationPanel extends JPanel {
 		nList=grandList;
 		popSize=grandPopSize;
 		numOfPop = grandNumOfPop;
-		pop=new Population(popSize, num,crossMode);
-		
-		
+		int iter=3;
+		double[] sum=new double[numOfPop/iter];		
+		for(int x=0;x<iter;x++){
+			System.out.println(x);
+	try {
+		PrintWriter writer = new PrintWriter(x+"_"+num+"_"+nList.sparse+"_"+repMode+"_1kdane17.txt", "UTF-8");
+		pop=new Population(1000, num,crossMode);
         pop.fillDNA(nList.list);
         if(repMode==1) {pop.evaluate();}
 	    else if(repMode==2) {pop.evaluate2();}
@@ -70,7 +77,7 @@ public class SimulationPanel extends JPanel {
         int j=0;
         for(int i=0;i<numOfPop;++i){
         	
-        	
+        
 	       if(repMode==1) {pop.reproduction();}
 	       else if(repMode==2) {pop.reproduction2();}
 	       
@@ -79,13 +86,34 @@ public class SimulationPanel extends JPanel {
 		    else if(repMode==2) {pop.evaluate2();}
 	        
 	        if(i%div==0){
+	        	sum[i/iter]+=pop.population.get(0).score;
+	        	writer.println(i+","+pop.population.get(0).score);
         		timeline.add(j, pop.population.get(0));
         		j++;
         	}
         }
         timeline.add(j,pop.population.get(0));
 //        for(Agent a: timeline)a.printScore();
-
+        
+        writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		try {
+			PrintWriter writer2 = new PrintWriter(num+"_"+nList.sparse+"_"+repMode+"_1kavg17.txt", "UTF-8");
+			for(int i=0;i<numOfPop/iter;++i)writer2.println(i+","+sum[i]/iter);
+			
+			writer2.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

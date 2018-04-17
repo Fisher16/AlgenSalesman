@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class NodeList {
 	public ArrayList<Node> list = new ArrayList<Node>();
-	double sparse = 15;
+	double sparse =10;
 	
 	public NodeList(int maxX, int maxY, int number){
 		Node nn=new Node(maxX,maxY,0);
@@ -15,6 +15,7 @@ public class NodeList {
 			while(this.tooClose(n))n=new Node(maxX,maxY,i);  //po co to?? //Nie bêd¹ za blisko kropki
 			list.add(n);
 		}
+		System.out.println("Generated");
 		
 	}
 	

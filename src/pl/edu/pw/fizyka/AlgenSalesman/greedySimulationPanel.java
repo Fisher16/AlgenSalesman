@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -48,8 +51,15 @@ public class greedySimulationPanel extends JPanel {
 		pop=new greedyPopulation(num);
         pop.fillDNA(nList.list);
         pop.evaluate();
-        pop.fillDNA(nList.list);        
-        
+        pop.fillDNA(nList.list); 
+        //System.out.println(pop.returnBest().score);
+        try {
+			PrintWriter writer = new PrintWriter(pop.returnBest().score+"greed.txt", "UTF-8");
+			writer.close();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         
   
